@@ -1,4 +1,5 @@
 # Customised lambda theme with bold green lambda that is red when false and github info at the right with colorised asterisk when dirty
+# git prompt
 ZSH_THEME_GIT_PROMPT_PREFIX="%{$fg[green]%}"
 ZSH_THEME_GIT_PROMPT_SUFFIX="%{$reset_color%} "
 ZSH_THEME_GIT_PROMPT_DIRTY="%{$fg[red]%}*%{$reset_color%}"
@@ -12,7 +13,15 @@ git_custom_status() {
   fi
 }
 
-RPS1='$(git_custom_status) $EPS1'
+# vi-mode mode indicator
+MODE_INDICATOR="%{$fg[red]%}<<<%{$reset_color%}"
+
+vi_mode_prompt_info() {
+    echo "${${KEYMAP/vicmd/$MODE_INDICATOR}/(main|viins)/}"
+}
+
+RPS1='$(git_custom_status)$(vi_mode_prompt_info)$EPS1'
 
 PROMPT='%(?.%{$fg_bold[green]%}.%{$fg_bold[red]%})λ%{$reset_color%} %~/ %{$reset_color%}'
 
+# vim: set ft=zsh:
